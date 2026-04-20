@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    container_name: node_crud_backend
+    # Production မှာ ports ဖွင့်မယ့်အစား Reverse Proxy (Nginx) သုံးတာ ပိုကောင်းပါတယ်
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=${PORT}
+      - DB_URI=mongodb://${MONGO_USER}:${MONGO_PASS}@mongodb:27017/node_crud?authSource=admin
+      - NODE_ENV=production
+    depends_on:
+      - mongodb
+    # Production မှာ volumes bind (.:/app) တာကို ရှောင်ကြဉ်ပါ (Security risk ရှိလို့ပါ)
+    volumes:
+      - ./upload:/app/upload
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:6.0 # latest အစား version အသေ သတ်မှတ်တာ ပိုလုံခြုံပါတယ်
+    container_name: node_crud_db
+    # Database port ကို အပြင်က တိုက်ရိုက်ဝင်လို့မရအောင် ပိတ်ထားသင့်ပါတယ်
+    ports:
+       - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
+      - MONGO_INITDB_DATABASE=node_crud
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
