@@ -1,14 +1,56 @@
 import React, { useState } from "react";
-import { Container, Form, Button, Card } from "react-bootstrap";
+import { Container, Form, Button, Card, Alert } from "react-bootstrap";
 import "./Login.css";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submit:", { email, password });
+        setError(""); // error အဟောင်းများကို ရှင်းထုတ်ရန်
+        setLoading(true);
+
+        try {
+            // 📌 URL ကို Backend Port 5000 အပြည့်အစုံသို့ ပြောင်းလဲထားသည်
+            const response = await fetch("http://localhost:5000/api/users/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            // 📌 JSON မပြောင်းခင် Response ပုံစံ မှန်မမှန်နှင့် Status ကို အရင်စစ်ဆေးခြင်း
+            if (!response.ok) {
+                const errorText = await response.text(); // JSON input မဟုတ်ပါက text အဖြစ် ဖတ်မည်
+                let errorMessage = "Something went wrong";
+                try {
+                    const errorJson = JSON.parse(errorText);
+                    errorMessage = errorJson.message;
+                } catch (e) {
+                    errorMessage = errorText || `Error Status: ${response.status}`;
+                }
+                throw new Error(errorMessage);
+            }
+
+            // Status အားလုံး အဆင်ပြေမှ JSON ပြောင်းလဲမည်
+            const data = await response.json();
+
+            // Login အောင်မြင်ပါက Token ကို သိမ်းဆည်းရန်
+            localStorage.setItem("token", data.accessToken);
+            alert("Login Successful!");
+            
+            // ဥပမာ - Dashboard သို့ Page ရွှေ့ရန်
+            // window.location.href = "/dashboard";
+
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -24,6 +66,9 @@ const Login = () => {
                         <p className="text-muted mt-2 auth-subtitle">Enter your details to proceed.</p>
                     </div>
 
+                    {/* Error တက်လာပါက ပြသရန် */}
+                    {error && <Alert variant="danger">{error}</Alert>}
+
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-4" controlId="formBasicEmail">
                             <Form.Label className="fw-semibold form-label-custom">Email Address</Form.Label>
@@ -34,6 +79,7 @@ const Login = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
+                                disabled={loading}
                             />
                         </Form.Group>
 
@@ -49,17 +95,23 @@ const Login = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
+                                disabled={loading}
                             />
                         </Form.Group>
 
-                        <Button variant="primary" type="submit" className="w-100 btn-primary-custom mt-2 auth-btn">
-                            Create Account
+                        <Button 
+                            variant="primary" 
+                            type="submit" 
+                            className="w-100 btn-primary-custom mt-2 auth-btn"
+                            disabled={loading}
+                        >
+                            {loading ? "Logging in..." : "Log In"}
                         </Button>
                     </Form>
                     
                     <div className="text-center mt-4 pt-4 border-top">
                         <p className="text-muted mb-0 auth-footer-text" style={{ fontSize: '0.9rem' }}>
-                            Already have an account? <a href="#login" className="text-decoration-none fw-semibold">Log in</a>
+                            Don't have an account? <a href="#register" className="text-decoration-none fw-semibold">Sign Up</a>
                         </p>
                     </div>
                 </Card.Body>

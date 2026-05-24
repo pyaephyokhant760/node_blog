@@ -1,0 +1,340 @@
+/* Base Page Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* အပေါ်ဆုံးက Base Page Reset အပိုင်းမှာ body ရော html ကိုပါ အခုလို ပြင်ပေးပါ */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f6f7f8; /* သင်ဖြစ်ချင်တဲ့ နောက်ခံမီးခိုးဖျော့ရောင် */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* အပြင်ဘက်ဆုံးက ကာကွယ်ပေးထားတဲ့ App Wrapper ကို Full Height ပေးလိုက်ခြင်း */
+.app-wrapper {
+    min-height: 100vh; /* Screen တစ်ခုလုံးရဲ့ အမြင့်အထိ အရောင်ဆွဲဆန့်ပေးမယ့် ကုဒ်အသက် */
+    background-color: #f6f7f8; /* သေချာအောင် နောက်ခံအရောင် ဒီမှာပါ ထပ်ထည့်ပါ */
+    display: flex;
+    flex-direction: column;
+}
+
+/* ကျန်တဲ့ ကုဒ်တွေကတော့ မူလအတိုင်း ထားနိုင်ပါတယ်... */
+
+/* --- Navbar Styles --- */
+.navbar {
+    background-color: #333a42; /* Charcoal Dark Grey */
+    color: #ffffff;
+    padding: 12px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.nav-links li:hover, .login-link:hover {
+    color: #ffffff;
+}
+
+.login-link {
+    color: #cbd5e1;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    background-color: #4b5563;
+    border: 1px solid #6b7280;
+    padding: 6px 35px 6px 12px;
+    border-radius: 6px;
+    color: white;
+    outline: none;
+    width: 200px;
+    font-size: 0.9rem;
+}
+
+.search-box input::placeholder {
+    color: #9ca3af;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+/* --- Main Layout Container --- */
+.main-content {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.comment-card-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.discussion-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 15px;
+}
+
+/* --- Comment Input Form --- */
+.comment-input-form {
+    margin-bottom: 35px;
+}
+
+.form-main-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e5e7eb;
+}
+
+.active-user {
+    border-color: #3b82f6; /* Blue highlight for current user */
+}
+
+.textarea-wrapper {
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.main-textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 1rem;
+    resize: vertical;
+    outline: none;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
+}
+
+.main-textarea:focus {
+    border-color: #3b82f6;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Custom Tooltip Styled Error Box */
+.custom-error-tooltip {
+    position: absolute;
+    right: 10px;
+    top: -45px;
+    background-color: #ffffff;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-weight: 500;
+    animation: fadeIn 0.2s ease;
+}
+
+.custom-error-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    right: 40px;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-right: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    transform: rotate(45deg);
+}
+
+/* Toolbar & Button Layout */
+.toolbar-and-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text-formatter-bar {
+    display: flex;
+    gap: 5px;
+}
+
+.text-formatter-bar button {
+    background: none;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    color: #6b7280;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.text-formatter-bar button:hover {
+    background-color: #f1f5f9;
+    color: #1f2937;
+}
+
+.post-btn {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 9px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+    transition: background-color 0.2s;
+}
+
+.post-btn:hover {
+    background-color: #2563eb;
+}
+
+/* --- Existing Comments Box --- */
+.comments-display-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.single-comment-box {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.comment-details {
+    flex-grow: 1;
+}
+
+.comment-user-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.author-name {
+    font-weight: 700;
+    color: #1f2937;
+    font-size: 0.95rem;
+}
+
+.time-posted {
+    color: #9ca3af;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.actual-comment-text {
+    color: #4b5563;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.comment-actions-bar {
+    display: flex;
+    gap: 15px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: #6b7280;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.action-btn:hover {
+    background-color: #f1f5f9;
+    color: #1f2937;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .nav-links, .login-link { display: none; }
+    .form-main-row { flex-direction: column; align-items: stretch; }
+    .custom-error-tooltip { top: auto; bottom: -50px; right: auto; left: 0; }
+    .custom-error-tooltip::after { display: none; }
+}

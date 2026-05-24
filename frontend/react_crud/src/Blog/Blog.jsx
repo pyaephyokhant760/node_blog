@@ -98,6 +98,7 @@ const Blog = () => {
                                         <h4 className="post-title">{post.title}</h4>
                                         <div className="post-card-meta">
                                             <span>{post.date}</span>
+                                            <span>Comment : 56</span>
                                             <span className="dot-separator">•</span>
                                             <span>{post.readTime}</span>
                                         </div>
